@@ -3,9 +3,7 @@ package controllers
 import (
 	"btc-billionaire/conf"
 	"btc-billionaire/models"
-	"fmt"
 	"net/http"
-	"regexp"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -44,13 +42,6 @@ func CreateRecord(c *gin.Context) {
 		return
 	}
 
-	err := validateNewRecordPayload(input)
-
-	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
 	txtTime, _ := time.Parse(time.RFC3339, input.DateTime)
 	record := models.Record{Amount: input.Amount, DateTime: txtTime}
 
@@ -58,6 +49,7 @@ func CreateRecord(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"data": record})
 }
 
+/*
 func validateNewRecordPayload(p models.CreateRecordInput) error {
 	// Check if the Datetime field is in the correct format.
 	datetimeRegexp := regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z`)
@@ -73,3 +65,4 @@ func validateNewRecordPayload(p models.CreateRecordInput) error {
 
 	return nil
 }
+*/
